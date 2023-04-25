@@ -1,25 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import { ThemeProvider } from '@emotion/react';
 import './App.css';
+import TopBar from './components/TopBar';
+import { createTheme } from '@mui/material';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import OrderView from './views/OrderView';
+import HomeView from './views/HomeView';
+import ApplicationsView from './views/ApplicationsView';
+import ReportsView from './views/ReportsView';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import CreateOrderView from './views/CreateOrderView';
+
+const theme = createTheme({
+  palette: {
+    primary:{
+      main: "#0D0A0B"
+    },
+    secondary: {
+      main: "#454955"
+    },
+    info: {
+      main: "##8ec04a"
+    },
+
+  }
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<TopBar/>}>
+            <Route index element={<HomeView/>} />
+            <Route path='ordenes' element={<OrderView/>} />
+            <Route path='aplicaciones' element={<ApplicationsView/>} />
+            <Route path='reportes' element={<ReportsView/>} />
+            <Route path='nueva-orden' element={<CreateOrderView/>} /> 
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
