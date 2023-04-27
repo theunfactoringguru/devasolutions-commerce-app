@@ -6,83 +6,45 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from "@mui/material/TableRow";
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-function createData(
-  orderType: string,
-  applicationType: string,
-  fechaReunion: Date,
-  fechaEntrega: Date,
-  state: string,
-  price: string
-) {
-  return {orderType, applicationType, fechaReunion, fechaEntrega, state, price};
-}
-
-const data = [
-  createData(
-    'Desarrollo',
-    'Sistema de Administracion',
-    new Date('2023-01-17'),
-    new Date('2023-01-17'),
-    'Desarrollo',
-    'www.example.com'
-  ),
-  createData(
-    'Desarrollo',
-    'Sistema de Administracion',
-    new Date('2023-01-17'),
-    new Date('2023-01-17'),
-    'Desarrollo',
-    'www.example.com'
-  ),
-  createData(
-    'Desarrollo',
-    'Sistema de Administracion',
-    new Date('2023-01-17'),
-    new Date('2023-01-17'),
-    'Desarrollo',
-    'www.example.com'
-  ),
-  createData(
-    'Desarrollo',
-    'Sistema de Administracion',
-    new Date('2023-01-17'),
-    new Date('2023-01-17'),
-    'Desarrollo',
-    'www.example.com'
-  ),
-  createData(
-    'Desarrollo',
-    'Sistema de Administracion',
-    new Date('2023-01-17'),
-    new Date('2023-01-17'),
-    'Desarrollo',
-    'www.example.com'
-  ),
-]
+import { useEffect, useState } from 'react';
 
 export default function OrderView(){
+  const [orders, setOrders] = useState([] as any);
+
+  async function fetchData(){
+    return await fetch(`http://localhost:8080/order`).then(
+      (response) => {
+        return response.json();
+      }
+    ).then((data) => {
+      setOrders(data)
+    });
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
   return(
     <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Tipo de Orden</TableCell>
-            <TableCell>Tipo de Aplicación</TableCell>
+            {/*<TableCell>Tipo de Aplicación</TableCell>*/}
             <TableCell>Fecha de Reunión</TableCell>
             <TableCell>Fecha de Entrega</TableCell>
-            <TableCell>Estado</TableCell>
+            {/*<TableCell>Estado</TableCell>*/}
             <TableCell>Cotización</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((value, index) => (
+          {orders.map((value: any, index: number) => (
             <TableRow key={index}>
               <TableCell>{value.orderType}</TableCell>
-              <TableCell>{value.applicationType}</TableCell>
-              <TableCell>{`${value.fechaEntrega.getDate()+1}-${value.fechaEntrega.getMonth()+1}-${value.fechaEntrega.getFullYear()}`}</TableCell>
-              <TableCell>{`${value.fechaReunion.getDate()+1}-${value.fechaReunion.getMonth()+1}-${value.fechaReunion.getFullYear()}`}</TableCell>
-              <TableCell>{value.state}</TableCell>
-              <TableCell>{value.price}</TableCell>
+              {/*<TableCell>{value.applicationType}</TableCell>*/}
+              <TableCell>{`${new Date(value.deliveryDate).getDate()+1}-${new Date(value.deliveryDate).getMonth()+1}-${new Date(value.deliveryDate).getFullYear()}`}</TableCell>
+              <TableCell>{`${new Date(value.meetingDate).getDate()+1}-${new Date(value.meetingDate).getMonth()+1}-${new Date(value.deliveryDate).getFullYear()}`}</TableCell>
+              {/*<TableCell>{value.state}</TableCell>*/}
+              <TableCell>{value.totalPrice}</TableCell>
             </TableRow>
           ))}
           <TableRow>

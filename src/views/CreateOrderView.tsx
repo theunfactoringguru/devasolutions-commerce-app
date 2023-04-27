@@ -7,6 +7,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from '@mui/material/Radio';
 import React, { useState } from "react";
 import { Button } from "@mui/material";
+import OrderModel from "../models/OrderModel";
 
 export default function CreateOrderView(){
   let data;
@@ -29,6 +30,9 @@ export default function CreateOrderView(){
     data = {orderType: orderType, meetingDate: meetingDate, description: description, appName: appName};
     
     alert(data.appName);
+
+    const order = new OrderModel('ORD001', orderType, new Date(), description);
+    order.create();
   }
   console.log(data);
   return(

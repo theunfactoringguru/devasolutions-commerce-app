@@ -1,13 +1,15 @@
 export default abstract class Model{
   protected id: string;
+  protected url: string;
 
   constructor(modelId: string){
     this.id = modelId;
+    this.url = 'http://localhost:8080'
   }
 
-  abstract create(): void;
-  abstract readOne(id: String): Model;
-  abstract readAll(id: String): Model[];
-  abstract update(): void;
-  abstract delete(): void;
+  async create(){
+    
+  };
+  //abstract update(): void;
+  //abstract delete(): void;
 }
